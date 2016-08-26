@@ -89,6 +89,14 @@ Delta1 = 0;
 Delta1 = Delta1 + delta2' * a1; % <=> Theta1[25,401]
 Theta1_grad = 1/m*Delta1;
 Theta2_grad = 1/m*Delta2;
+% Regularized Neural Networks
+Reg_theta1 = lambda/m* Theta1;
+Reg_theta1(:,1) = 0;
+Reg_theta2 = lambda/m* Theta2;
+Reg_theta2(:,1) = 0;
+Theta1_grad = Theta1_grad + Reg_theta1;
+Theta2_grad = Theta2_grad + Reg_theta2;
+
 
 % =========================================================================
 
