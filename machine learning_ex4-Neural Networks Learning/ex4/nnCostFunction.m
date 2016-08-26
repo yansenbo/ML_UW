@@ -75,8 +75,11 @@ y_matrix = eye_matrix(y,:);
 % for i = 1:size(y,1)
 %     yr(i,y(i)) = 1;
 % end
+
 J = 1/m*sum(sum(-y_matrix.*log(hx) - (1-y_matrix).*log(1-hx)));
 % J = 1/m*sum(sum(log(hx)'*(-y_matrix)-log(1-hx)'*(1-y_matrix)));
+Reg = lambda/2/m*(sum(sum(Theta1(:,2:end).*Theta1(:,2:end)))+sum(sum(Theta2(:,2:end).*Theta2(:,2:end))));
+J = J + Reg;
 % =========================================================================
 
 % Unroll gradients
