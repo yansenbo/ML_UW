@@ -63,9 +63,9 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 % -------------------------------------------------------------
-a1 = [ones(m,1) X];  %m=5k
-z2 = a1*Theta1';
-a2 = [ones(m,1) sigmoid(z2)];
+a1 = [ones(m,1) X];  %[5k,401]
+z2 = a1*Theta1'; % [5k,25]
+a2 = [ones(m,1) sigmoid(z2)]; % [5k,26]
 z3 = a2*Theta2';  %5k,10
 hx = sigmoid(z3);
 
@@ -80,6 +80,16 @@ J = 1/m*sum(sum(-y_matrix.*log(hx) - (1-y_matrix).*log(1-hx)));
 % J = 1/m*sum(sum(log(hx)'*(-y_matrix)-log(1-hx)'*(1-y_matrix)));
 Reg = lambda/2/m*(sum(sum(Theta1(:,2:end).*Theta1(:,2:end)))+sum(sum(Theta2(:,2:end).*Theta2(:,2:end))));
 J = J + Reg;
+
+delta3 = hx - y_matrix; %[5k,10]
+delta2 = delta3*Theta2(:,2:end).*sigmoidGradient(z2); %[5k,25]
+Delta2 = 0;
+Delta2 = Delta2 + delta3' * a2; %[10,26] <=> Theta2[10,26]
+Delta1 = 0;
+Delta1 = Delta1 + delta2' * a1; % <=> Theta1[25,401]
+Theta1_grad = 1/m*Delta1;
+Theta2_grad = 1/m*Delta2;
+
 % =========================================================================
 
 % Unroll gradients
