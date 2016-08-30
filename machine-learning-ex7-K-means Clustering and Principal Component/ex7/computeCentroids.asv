@@ -32,9 +32,9 @@ for i = 1:K
     for j = 1:size(idx)
        if idx(j) == i
           c = c + 1;
-          s = s + X(j,:);
+          s = s + suX(j,:));
        end
-       centroids(i,:) = 1/c * s;
+       centroids(i) = 1/c * s;
     end
 end
 
